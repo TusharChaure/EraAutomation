@@ -1,0 +1,130 @@
+package era.pageObjectModel;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+import era.abstractComponents.AbstractComponent;
+
+public class HomePage extends AbstractComponent {
+
+	WebDriver driver;
+	String firstStationName, secondStationName;
+
+	public HomePage(WebDriver driver) {
+		super(driver);
+		this.driver = driver;
+		PageFactory.initElements(driver, this);
+	}
+	
+	@FindBy(xpath="//header[@data-select='era-header']")
+	WebElement headerElement;
+	@FindBy(xpath="//input[@name='from']") 
+	WebElement originField;
+	@FindBy(xpath="//input[@name='to']")
+	WebElement destinationField;
+	@FindBy(xpath="//button[@role='option']")
+	List<WebElement> originList;
+	@FindBy(css="button.era-dateSelector-toggleButton")
+	WebElement calender;
+	@FindBy(xpath="//button[@data-select=\"era-calendarHeader-nextMonth\"]")
+	WebElement nextMonthIcon;
+	@FindBy(xpath="//button[@data-select='era-calendar-days-1']")
+	WebElement date;
+	@FindBy(xpath="//button[@data-select='pax-selector-adults-more']")
+	WebElement travelerNumber;
+	@FindBy(xpath="//button[@data-select='pointToPoint-search-form-search-button']")
+	WebElement searchButton;
+	@FindBy(xpath="//era-point-to-point-results-list")
+	WebElement searchPointToPointResults;
+	@FindBy(xpath="//input[@data-select='pax-selector-adults-input']")
+	WebElement adultTravelerNumber;
+	@FindBy(xpath=".pointToPointSelectionStep-messages")
+	WebElement missingSupplierMessage;
+	
+	public void enterAndSelectLocation(String origin, String destination, List<String> completeStationName) {
+		scrollUptoElement(headerElement);
+		originField.click();
+		originField.clear();
+		originField.sendKeys(origin);
+		filterStation(origin, completeStationName.get(0));
+		destinationField.click();
+		destinationField.clear();
+		destinationField.sendKeys(destination);
+		filterStation(destination, completeStationName.get(1));
+	}
+	
+	public void filterStation(String station, String compareStationName) {
+		if(!originList.get(0).isDisplayed())
+			waitForWebElementToAppear(originList.get(0));
+		for(int i=1;i<=originList.size();i++) {
+			firstStationName = driver.findElement(By.xpath("//button[@role='option']["+i+"]//span["+2+"]//span[@data-select='search-highlight'][1]")).getText();
+			secondStationName = driver.findElement(By.xpath("//button[@role='option']["+i+"]//span["+2+"]//span[@data-select='search-highlight'][2]")).getText();
+			System.out.println(firstStationName.concat(secondStationName));
+			System.out.println(compareStationName);
+			if(firstStationName.concat(secondStationName).contentEquals(compareStationName)) {
+				driver.findElement(By.xpath("//button[@role='option']["+i+"]")).click();
+				break;
+			}
+		}
+	}
+	
+	@SuppressWarnings("deprecation")
+	public void selectDepartureDateAndTravelerNumbers() {
+		calender.click();
+		waitForWebElementToAppear(nextMonthIcon);
+		nextMonthIcon.click();
+		waitForWebElementToAppear(date);
+		date.click();
+		if(adultTravelerNumber.getAttribute("value").contentEquals("0"))
+			travelerNumber.click();
+	}
+	
+	public void searchJouney() throws InterruptedException {
+		Thread.sleep(500);
+		pageDown();
+		waitForWebElementToAppear(searchButton);
+		searchButton.click();
+	}
+	
+	@SuppressWarnings({ "deprecation" })
+	public void selectJourney(String carrier) throws InterruptedException {
+		waitForWebElementToAppear(searchPointToPointResults);
+		List<WebElement> resultList = searchPointToPointResults.findElements(By.xpath("//era-point-to-point-result-item"));
+		for(int i=1;i<=resultList.size();i++) {
+			List<WebElement> listOfInnerElements = new ArrayList<WebElement>(); 
+			scrollUptoElement(searchPointToPointResults.findElement(By.xpath("//era-point-to-point-result-item["+i+"]//era-leg-solution-info")));
+			if(searchPointToPointResults.findElements(By.xpath("//era-point-to-point-result-item["+i+"]//era-proposition-button/button//span[@class='proposition-flexibility']")).size()==1)
+				listOfInnerElements.add(searchPointToPointResults.findElement(By.xpath("//era-point-to-point-result-item["+i+"]//era-proposition-button/button//span[@class='proposition-flexibility']")));
+			else
+				listOfInnerElements = searchPointToPointResults.findElements(By.xpath("//era-point-to-point-result-item["+i+"]//era-proposition-button/button//span[@class='proposition-flexibility']"));
+			for(int j=0;j<listOfInnerElements.size();j++) {
+				scrollUptoElement(searchPointToPointResults.findElement(By.xpath("//era-point-to-point-result-item["+i+"]//era-leg-solution-info")));
+				if(listOfInnerElements.get(j).getText().contentEquals("Semi Flex") || listOfInnerElements.get(j).getText().contentEquals("Flexible")) {
+					listOfInnerElements.get(j).click();		
+					break;
+				}
+			}
+			try {
+				if(searchPointToPointResults.findElement(By.xpath("//era-point-to-point-result-item["+i+"]//img")).getAttribute("alt").contentEquals(carrier)) {
+					scrollUptoElement(searchPointToPointResults.findElement(By.xpath("//era-point-to-point-result-item["+i+"]//img[@alt='"+carrier+"']//ancestor::section//era-result-footer//button")));
+					Thread.sleep(2000);
+					searchPointToPointResults.findElement(By.xpath("//era-point-to-point-result-item["+i+"]//img[@alt='"+carrier+"']//ancestor::section//era-result-footer//button")).click();
+					break;
+				}
+			}
+			catch(Exception e) {
+				System.out.println();
+			}
+		}
+	}
+	
+	
+	
+	
+	
+}
