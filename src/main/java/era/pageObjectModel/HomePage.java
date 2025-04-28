@@ -33,7 +33,7 @@ public class HomePage extends AbstractComponent {
 	WebElement calender;
 	@FindBy(xpath="//button[@data-select=\"era-calendarHeader-nextMonth\"]")
 	WebElement nextMonthIcon;
-	@FindBy(xpath="//button[@data-select='era-calendar-days-5']")
+	@FindBy(xpath="//button[@data-select='era-calendar-days-2']")
 	WebElement date;
 	@FindBy(xpath="//button[@data-select='pax-selector-adults-more']")
 	WebElement travelerNumber;
