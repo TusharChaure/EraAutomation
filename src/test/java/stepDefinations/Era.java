@@ -59,10 +59,19 @@ public class Era extends BaseTest {
 		else if(carrier.contentEquals("italo"))
 			stations = Arrays.asList("Rome, Italy", "Milan, Italy");
 		homePage.enterAndSelectLocation(origin, departure, stations);
-		homePage.selectDepartureDateAndTravelerNumbers();
-		homePage.searchJouney();
-		homePage.selectJourney(carrier);
-		if(!carrier.contentEquals("italo"))
+		homePage.selectDepartureDateAndTravelerNumbers("ptp");
+		homePage.searchPTPJouney();
+		homePage.selectPtPJourney(carrier);
+		cart.addAnotherProducts();
+	}
+	
+	@Given("^Search (.+), (.+) pass journey$")
+	public void searchPassJourney(String pass, String passName) throws InterruptedException {
+		homePage.selectRespectivePass(pass);
+		homePage.selectDepartureDateAndTravelerNumbers("pass");
+		homePage.searchPassJouney();
+		homePage.selectPass(passName);
+		if(!pass.contentEquals("CH"))
 			cart.addAnotherProducts();
 	}
 	

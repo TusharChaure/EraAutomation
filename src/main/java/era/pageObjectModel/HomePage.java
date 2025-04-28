@@ -30,25 +30,37 @@ public class HomePage extends AbstractComponent {
 	@FindBy(xpath="//button[@role='option']")
 	List<WebElement> originList;
 	@FindBy(css="button.era-dateSelector-toggleButton")
-	WebElement calender;
+	WebElement ptpCalender;
+	@FindBy(xpath="//button[@data-select='datetime-selector-dateButton-beginningDate']")
+	WebElement passCalender;
 	@FindBy(xpath="//button[@data-select=\"era-calendarHeader-nextMonth\"]")
 	WebElement nextMonthIcon;
 	@FindBy(xpath="//button[@data-select='era-calendar-days-2']")
 	WebElement date;
-	@FindBy(xpath="//button[@data-select='pax-selector-adults-more']")
-	WebElement travelerNumber;
+	@FindBy(xpath="//era-point-to-point-search-form//button[@data-select='pax-selector-adults-more']")
+	WebElement ptpTravelerNumber;
+	@FindBy(xpath="//era-passes-search-form//button[@data-select='pax-selector-adults-more']")
+	WebElement passTravelerNumber;
 	@FindBy(xpath="//button[@data-select='pointToPoint-search-form-search-button']")
-	WebElement searchButton;
+	WebElement searchPTPOfferButton;
 	@FindBy(xpath="//era-point-to-point-results-list")
 	WebElement searchPointToPointResults;
-	@FindBy(xpath="//input[@data-select='pax-selector-adults-input']")
-	WebElement adultTravelerNumber;
+	@FindBy(xpath="//era-point-to-point-search-form//input[@data-select='pax-selector-adults-input']")
+	WebElement ptpAdultTravelerNumber;
 	@FindBy(xpath=".pointToPointSelectionStep-messages")
 	WebElement missingSupplierMessage;
 	@FindBy(xpath="//li[@data-select='era-tabs-header-li-Passes']")
 	WebElement paasesLinkButton;
 	@FindBy(xpath="//button[@data-select='passes-search-form-country']")
 	WebElement selectDestinationField;
+	@FindBy(className="era-formSelect-options")
+	WebElement passOptionListCard;
+	@FindBy(xpath="//button[@data-select='passes-search-form-search-button']")
+	WebElement searchPassOfferButton;
+	@FindBy(xpath="//section[@class='era-content era-offersSearch']//ul[@data-select='loaded-flag']")
+	WebElement passResults;
+	@FindBy(xpath="//era-passes-search-form//input[@data-select='pax-selector-adults-input']")
+	WebElement passAdultTravelerNumber;
 	
 	public void enterAndSelectLocation(String origin, String destination, List<String> completeStationName) {
 		scrollUptoElement(headerElement);
@@ -62,10 +74,11 @@ public class HomePage extends AbstractComponent {
 		filterStation(destination, completeStationName.get(1));
 	}
 	
-	public void selectParticularPassAndClickOnSearchButton() {
+	public void selectRespectivePass(String pass) {
 		scrollUptoElement(headerElement);
 		paasesLinkButton.click();
 		selectDestinationField.click();
+		passOptionListCard.findElement(By.xpath("//button[@value='" + pass + "']")).click();
 	}
 	
 	public void filterStation(String station, String compareStationName) {
@@ -84,25 +97,37 @@ public class HomePage extends AbstractComponent {
 	}
 	
 	@SuppressWarnings("deprecation")
-	public void selectDepartureDateAndTravelerNumbers() {
-		calender.click();
+	public void selectDepartureDateAndTravelerNumbers(String pass) {
+		if(pass.contentEquals("pass")) {
+			if(passAdultTravelerNumber.getAttribute("value").contentEquals("0")) 
+				passTravelerNumber.click();
+			passCalender.click();
+		}
+		else {
+			if(ptpAdultTravelerNumber.getAttribute("value").contentEquals("0")) 
+				ptpTravelerNumber.click();
+			ptpCalender.click();
+		}
 		waitForWebElementToAppear(nextMonthIcon);
 		nextMonthIcon.click();
 		waitForWebElementToAppear(date);
 		date.click();
-		if(adultTravelerNumber.getAttribute("value").contentEquals("0"))
-			travelerNumber.click();
 	}
 	
-	public void searchJouney() throws InterruptedException {
+	public void searchPTPJouney() throws InterruptedException {
 		Thread.sleep(500);
-		pageDown();
-		waitForWebElementToAppear(searchButton);
-		searchButton.click();
+		scrollUptoElement(searchPTPOfferButton);
+		searchPTPOfferButton.click();
+	}
+	
+	public void searchPassJouney() throws InterruptedException {
+		Thread.sleep(500);
+		scrollUptoElement(searchPassOfferButton);
+		searchPassOfferButton.click();
 	}
 	
 	@SuppressWarnings({ "deprecation" })
-	public void selectJourney(String carrier) throws InterruptedException {
+	public void selectPtPJourney(String carrier) throws InterruptedException {
 		waitForWebElementToAppear(searchPointToPointResults);
 		List<WebElement> resultList = searchPointToPointResults.findElements(By.xpath("//era-point-to-point-result-item"));
 		for(int i=1;i<=resultList.size();i++) {
@@ -133,7 +158,19 @@ public class HomePage extends AbstractComponent {
 		}
 	}
 	
-	
+	public void selectPass(String passName) throws InterruptedException {
+		List<WebElement> listOfPassResults = passResults.findElements(By.tagName("li"));
+		for(int i=1;i<=listOfPassResults.size();i++) {
+			scrollUptoElement(passResults.findElement(By.xpath("//li["+i+"]")));
+			if(passResults.findElement(By.xpath("//li["+i+"]//h2")).getText().contentEquals(passName)) {
+				scrollUptoElement(passResults.findElement(By.xpath("//li["+i+"]//div[@class='era-passesResult-prices--secondClass']/button")));
+				passResults.findElement(By.xpath("//li["+i+"]//div[@class='era-passesResult-prices--secondClass']/button")).click();
+				scrollUptoElement(passResults.findElement(By.xpath("//li["+i+"]//button[@class='era-passesResult-summaryAddToCart']")));
+				passResults.findElement(By.xpath("//li["+i+"]//button[@class='era-passesResult-summaryAddToCart']")).click();
+				break;
+			}
+		}
+	}
 	
 	
 	
