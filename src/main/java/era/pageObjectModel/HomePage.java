@@ -33,7 +33,7 @@ public class HomePage extends AbstractComponent {
 	WebElement calender;
 	@FindBy(xpath="//button[@data-select=\"era-calendarHeader-nextMonth\"]")
 	WebElement nextMonthIcon;
-	@FindBy(xpath="//button[@data-select='era-calendar-days-1']")
+	@FindBy(xpath="//button[@data-select='era-calendar-days-5']")
 	WebElement date;
 	@FindBy(xpath="//button[@data-select='pax-selector-adults-more']")
 	WebElement travelerNumber;
@@ -45,6 +45,10 @@ public class HomePage extends AbstractComponent {
 	WebElement adultTravelerNumber;
 	@FindBy(xpath=".pointToPointSelectionStep-messages")
 	WebElement missingSupplierMessage;
+	@FindBy(xpath="//li[@data-select='era-tabs-header-li-Passes']")
+	WebElement paasesLinkButton;
+	@FindBy(xpath="//button[@data-select='passes-search-form-country']")
+	WebElement selectDestinationField;
 	
 	public void enterAndSelectLocation(String origin, String destination, List<String> completeStationName) {
 		scrollUptoElement(headerElement);
@@ -56,6 +60,12 @@ public class HomePage extends AbstractComponent {
 		destinationField.clear();
 		destinationField.sendKeys(destination);
 		filterStation(destination, completeStationName.get(1));
+	}
+	
+	public void selectParticularPassAndClickOnSearchButton() {
+		scrollUptoElement(headerElement);
+		paasesLinkButton.click();
+		selectDestinationField.click();
 	}
 	
 	public void filterStation(String station, String compareStationName) {
