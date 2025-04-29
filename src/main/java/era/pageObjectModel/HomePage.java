@@ -61,6 +61,7 @@ public class HomePage extends AbstractComponent {
 	WebElement passResults;
 	@FindBy(xpath="//era-passes-search-form//input[@data-select='pax-selector-adults-input']")
 	WebElement passAdultTravelerNumber;
+	By spinnerIcon = By.tagName("era-spinner");
 	
 	public void enterAndSelectLocation(String origin, String destination, List<String> completeStationName) {
 		scrollUptoElement(headerElement);
@@ -118,12 +119,14 @@ public class HomePage extends AbstractComponent {
 		Thread.sleep(500);
 		scrollUptoElement(searchPTPOfferButton);
 		searchPTPOfferButton.click();
+		waitUntilInvisibilityOfElement(searchPTPOfferButton.findElement(spinnerIcon));
 	}
 	
 	public void searchPassJouney() throws InterruptedException {
 		Thread.sleep(500);
 		scrollUptoElement(searchPassOfferButton);
 		searchPassOfferButton.click();
+		waitUntilInvisibilityOfElement(searchPassOfferButton.findElement(spinnerIcon));
 	}
 	
 	@SuppressWarnings({ "deprecation" })

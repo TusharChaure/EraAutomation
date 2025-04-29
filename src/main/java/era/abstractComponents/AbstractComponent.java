@@ -69,6 +69,11 @@ public class AbstractComponent {
 		wait.until(ExpectedConditions.elementToBeClickable(element)).click();
 	}
 	
+	public void waitUntilInvisibilityOfElement(WebElement element) {
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+		wait.until(ExpectedConditions.invisibilityOf(element));
+	}
+	
 	public Integer count(By dobField) {
 		List<By> list = new ArrayList<By>();
 		try{

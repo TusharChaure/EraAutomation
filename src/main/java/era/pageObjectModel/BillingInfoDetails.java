@@ -37,8 +37,8 @@ public class BillingInfoDetails extends AbstractComponent{
 	WebElement address2Field;
 	@FindBy(xpath="//button[@name='countryCode']")
 	WebElement countryCodeButton;
-	@FindBy(xpath="//button[@value='IN']")
-	WebElement indiaCountryoption;
+	@FindBy(xpath="//button[@value='AF']")
+	WebElement countryoption;
 	@FindBy(xpath="//input[@name='zipCode']")
 	WebElement zipCodeField;
 	@FindBy(xpath="//input[@name='city']")
@@ -73,7 +73,7 @@ public class BillingInfoDetails extends AbstractComponent{
 		address1Field.sendKeys(firstAddress);
 		address2Field.sendKeys(secondAddress);
 		countryCodeButton.click();
-		indiaCountryoption.click();
+		countryoption.click();
 		zipCodeField.sendKeys(zipCode);
 		cityField.sendKeys(city);
 		stateField.sendKeys(state);

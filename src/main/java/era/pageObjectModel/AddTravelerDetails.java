@@ -51,10 +51,12 @@ public class AddTravelerDetails extends AbstractComponent {
 	WebElement leadTravelerSection;
 	@FindBy(xpath="//footer[@data-select='era-footer']")
 	WebElement eraFooter;
+	@FindBy(xpath="//button[@data-select='travelers-details-form-confirm-button']/era-spinner")
+	WebElement spinnerIcon;
 	
 	public void addTravelerInfo(String title, String firstName, String lastName, String dob, String email, String phoneNumber, String identityDocNumber, String docExpirationDate) throws InterruptedException {
 		for(WebElement traveler: addTrvelerInfoList) {
-			Thread.sleep(1500);
+			Thread.sleep(1000);
 			scrollUptoElement(traveler);
 			scrollUptoElement(travelerInfoCardFooter);
 			traveler.findElement(titleButton).click();
@@ -77,7 +79,8 @@ public class AddTravelerDetails extends AbstractComponent {
 				traveler.findElement(afCountryButton).click();
 			}
 			traveler.findElement(confirmButton).click();
-			Thread.sleep(6000);
+			waitUntilInvisibilityOfElement(spinnerIcon);
+			Thread.sleep(1000);
 		}
 		scrollUptoElement(eraFooter);
 		continueToHoldAndPaymentButton.click();
