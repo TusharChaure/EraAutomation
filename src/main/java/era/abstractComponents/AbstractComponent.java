@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -77,5 +78,9 @@ public class AbstractComponent {
 			System.out.println("Requested element " + dobField + "not present");
 		}
 		return list.size();
+	}
+	
+	public void browserZoomLevel(double percentage) {
+		((JavascriptExecutor) driver).executeScript("document.body.style.zoom = '" + percentage + "'");	
 	}
 }

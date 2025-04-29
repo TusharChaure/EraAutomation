@@ -29,6 +29,7 @@ public class LandingPage extends AbstractComponent{
 	public void goTo()
 	{
 		driver.get("https://era.raileurope.com");
+		browserZoomLevel(0.8);
 	}
 	
 	public void acceptTermsAndConditions() {

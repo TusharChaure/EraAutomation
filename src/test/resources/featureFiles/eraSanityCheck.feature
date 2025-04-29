@@ -17,7 +17,7 @@ Feature: Landing to home page
       | london    | Paris     | eurostar                |
       | edinburgh | london    | rdg_avanti_west_coast   |
       | amsterdam | rotterdam | sncb                    |
-      | barcelona | madrid    | ouigo_esp               |
+      | barcelona | madrid    | renfe		                |
       | zermatt   | chur      | sbb_regioexpress        |
       | wien hbf  | gyor      | regiojet                |
       | rome      | milan     | italo                   |

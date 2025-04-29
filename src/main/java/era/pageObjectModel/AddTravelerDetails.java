@@ -49,6 +49,8 @@ public class AddTravelerDetails extends AbstractComponent {
 	List<WebElement> listOfParaElement;
 	@FindBy(xpath="//div[@class='era-travelerDetailsForm-leadTraveler']")
 	WebElement leadTravelerSection;
+	@FindBy(xpath="//footer[@data-select='era-footer']")
+	WebElement eraFooter;
 	
 	public void addTravelerInfo(String title, String firstName, String lastName, String dob, String email, String phoneNumber, String identityDocNumber, String docExpirationDate) throws InterruptedException {
 		for(WebElement traveler: addTrvelerInfoList) {
@@ -77,8 +79,7 @@ public class AddTravelerDetails extends AbstractComponent {
 			traveler.findElement(confirmButton).click();
 			Thread.sleep(6000);
 		}
-		pageDown();
-		scrollUptoElement(continueToHoldAndPaymentButton);
+		scrollUptoElement(eraFooter);
 		continueToHoldAndPaymentButton.click();
 	}
 	
