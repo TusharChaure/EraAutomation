@@ -48,7 +48,7 @@ public class Era extends BaseTest {
 			stations = Arrays.asList("Edinburgh(Waverley, city centre), UK", "London(All stations), UK");
 		else if(carrier.contentEquals("sncb"))
 			stations = Arrays.asList("Amsterdam, Netherlands", "Rotterdam, Netherlands");
-		else if(carrier.contentEquals("renfe"))
+		else if(carrier.contentEquals("ouigo_esp"))
 			stations = Arrays.asList("Barcelona(All stations), Spain", "Madrid(All stations), Spain");
 		else if(carrier.contentEquals("sbb_regioexpress"))
 			stations = Arrays.asList("Zermatt, Switzerland", "Chur, Switzerland");

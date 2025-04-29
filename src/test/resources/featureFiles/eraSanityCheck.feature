@@ -17,7 +17,7 @@ Feature: Landing to home page
       | london    | Paris     | eurostar                |
       | edinburgh | london    | rdg_avanti_west_coast   |
       | amsterdam | rotterdam | sncb                    |
-      | barcelona | madrid    | renfe                   |
+      | barcelona | madrid    | ouigo_esp               |
       | zermatt   | chur      | sbb_regioexpress        |
       | wien hbf  | gyor      | regiojet                |
       | rome      | milan     | italo                   |
@@ -28,7 +28,7 @@ Feature: Landing to home page
     Examples: 
       | pass | passName                             |
       | EU   | Eurail Global Mobile Pass Continuous |
-      | CH	 | Swiss Half Fare Card									|
+      | CH   | Swiss Half Fare Card                 |
 
   Scenario: Add travelers billing info details and proceed to payment page
     Given Click on proceed to add travelers details button
