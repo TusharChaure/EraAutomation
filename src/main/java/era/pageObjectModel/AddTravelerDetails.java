@@ -77,6 +77,7 @@ public class AddTravelerDetails extends AbstractComponent {
 			traveler.findElement(confirmButton).click();
 			Thread.sleep(6000);
 		}
+		pageDown();
 		scrollUptoElement(continueToHoldAndPaymentButton);
 		continueToHoldAndPaymentButton.click();
 	}
