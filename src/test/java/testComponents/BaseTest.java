@@ -51,11 +51,10 @@ public class BaseTest {
 		String browserName = System.getProperty("browser")!=null ? System.getProperty("browser") :prop.getProperty("browser");
 		if (browserName.contains("chrome")) {
 			ChromeOptions options = new ChromeOptions();
-			System.setProperty("webdriver.chrome.driver", "src/test/resources/installers/chromedriver");
-			if(browserName.contains("headless")){
-				options.addArguments("headless");
-			}		
-			driver = new ChromeDriver();
+			WebDriverManager.chromedriver().setup();
+			options.addArguments("headless");
+			options.addArguments("disable-gpu");
+			driver = new ChromeDriver(options);
 		} else if (browserName.equalsIgnoreCase("firefox")) {
 			System.setProperty("webdriver.gecko.driver", "firefox.exe");
 			driver = new FirefoxDriver();
