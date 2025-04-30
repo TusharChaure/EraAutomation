@@ -46,7 +46,7 @@ public class BaseTest {
 
 	{
 		Properties prop = new Properties();
-		FileInputStream fis = new FileInputStream(System.getProperty("user.dir") + "\\src\\test\\resources\\config\\config.properties");
+		FileInputStream fis = new FileInputStream("src/test/resources/config/config.properties");
 		prop.load(fis);
 		String browserName = System.getProperty("browser")!=null ? System.getProperty("browser") :prop.getProperty("browser");
 		if (browserName.contains("chrome")) {
