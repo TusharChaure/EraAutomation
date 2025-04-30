@@ -51,7 +51,7 @@ public class BaseTest {
 		String browserName = System.getProperty("browser")!=null ? System.getProperty("browser") :prop.getProperty("browser");
 		if (browserName.contains("chrome")) {
 			ChromeOptions options = new ChromeOptions();
-			WebDriverManager.chromedriver().setup();
+			System.setProperty("webdriver.chrome.driver", "src/test/resources/installers/chromedriver.exe");
 			if(browserName.contains("headless")){
 				options.addArguments("headless");
 			}		
