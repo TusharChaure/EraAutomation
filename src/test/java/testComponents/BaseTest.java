@@ -55,8 +55,8 @@ public class BaseTest {
 		if (browserName.contains("chrome")) {
 			ChromeOptions options = new ChromeOptions();
 			WebDriverManager.chromedriver().setup();
-			if(mode.contentEquals("headless"))
-				options.addArguments("headless");
+//			if(mode.contentEquals("headless"))
+//				options.addArguments("headless");
 			driver = new ChromeDriver(options);
 		} else if (browserName.equalsIgnoreCase("firefox")) {
 			System.setProperty("webdriver.gecko.driver", "firefox.exe");
@@ -104,7 +104,7 @@ public class BaseTest {
 	public static String takeScreenshot(String methodName) {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         methodName = methodName.replaceAll(" ", "_");
-        String screenshotPath = "/screenshots/" + methodName + "_" + timeStamp + ".png";
+        String screenshotPath = "screenshots/" + methodName + "_" + timeStamp + ".png";
         File src = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
         File dest = new File(screenshotPath);
         dest.getParentFile().mkdirs();
