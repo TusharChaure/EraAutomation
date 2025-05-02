@@ -7,9 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
-import com.aventstack.extentreports.MediaEntityBuilder;
 import com.aventstack.extentreports.model.Media;
-
 import io.cucumber.plugin.ConcurrentEventListener;
 import io.cucumber.plugin.event.EventPublisher;
 import io.cucumber.plugin.event.PickleStepTestStep;
@@ -65,14 +63,16 @@ public class ExtentCucumberAdapter<MediaModelProvider> extends BaseTest implemen
 		logs.append("<br>" + "<br>" + "</b>");
 	}
 	
-	private void testPassedOrSkipped() {
-		extentTest.pass(scenarioDescription, mediaModel);
+	private void testPassedOrSkipped(TestCaseFinished event) {
+		extentTest.pass(scenarioDescription);
+		extentTest.addScreenCaptureFromPath(takeScreenshot(event.getTestCase().getName(), driver));
 	}
 	
 	private void testFailed(TestCaseFinished event) {
 		error = "<b>Error: </b><br><br>" + event.getResult().getError() + "<br>";
 		extentTest.fail(error);
-		extentTest.fail(scenarioDescription, mediaModel);
+		extentTest.fail(scenarioDescription);
+		extentTest.addScreenCaptureFromPath(takeScreenshot(event.getTestCase().getName(), driver));
 	}
 
 	@SuppressWarnings({ "incomplete-switch" })
@@ -84,18 +84,15 @@ public class ExtentCucumberAdapter<MediaModelProvider> extends BaseTest implemen
 		logs = new StringBuilder();
 		testLogs(event);
 		scenarioDescription = "<br><b>Scenario Description: </b><br>" + logs.toString() + "<br><br>";
-	    String screenshotPath = takeScreenshot(event.getTestCase().getName(), driver);
-	    System.out.println(screenshotPath);
-	    mediaModel = MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath).build();
 		switch (event.getResult().getStatus()) {
 		case PASSED:
-			testPassedOrSkipped();
+			testPassedOrSkipped(event);
 			break;
 		case FAILED:
 			testFailed(event);
 			break;
 		case SKIPPED:
-			testPassedOrSkipped();
+			testPassedOrSkipped(event);
 			break;
 		}
 		extent.flush();

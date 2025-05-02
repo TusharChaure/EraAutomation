@@ -6,7 +6,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.text.SimpleDateFormat;
 import java.time.Duration;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
@@ -98,24 +101,20 @@ public class BaseTest {
 		landingPage.goTo();
 	}
 	
-	public static String takeScreenshot(String scenarioName, WebDriver driver) {
-	    try {
-	        File src = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-	        String timestamp = new java.text.SimpleDateFormat("yyyyMMdd_HHmmss").format(new java.util.Date());
-	        String safeName = scenarioName.replaceAll("[^a-zA-Z0-9]", "_");
-	        String filename = safeName + "_" + timestamp + ".png";
-	        String screenshotDir = "screenshots";
-	        File dest = new File("../RailEuropeAutomation/target/" + screenshotDir  + "/" + filename);
-	        dest.getParentFile().mkdirs();
-	        java.nio.file.Files.copy(src.toPath(), dest.toPath());
-	        return "../RailEuropeAutomation/target/" + screenshotDir  + "/" + filename;
-	        
-	    } catch (IOException e) {
-	        e.printStackTrace();
-	        return null;
-	    }
-	}
-
+	public static String takeScreenshot(String methodName, WebDriver driver) {
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        methodName = methodName.replaceAll(" ", "_");
+        String screenshotPath = "screenshots/" + methodName + "_" + timeStamp + ".png";
+        File src = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+        File dest = new File(screenshotPath);
+        dest.getParentFile().mkdirs();
+        try {
+            Files.copy(src.toPath(), dest.toPath());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return screenshotPath;
+    }
 	
 	@AfterMethod(alwaysRun=true)	
 	public void tearDown()
