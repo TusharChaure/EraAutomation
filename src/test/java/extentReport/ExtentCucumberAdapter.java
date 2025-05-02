@@ -84,7 +84,14 @@ public class ExtentCucumberAdapter extends BaseTest implements ConcurrentEventLi
 		extentTest.assignCategory(Arrays.asList(stringArray).get(stringArray.length-1) + scenario.getName());
 		logs = new StringBuilder();
 		testLogs(event);
-		scenarioDescription = "<br><b>Scenario Description: </b><br>" + logs.toString();
+		scenarioDescription = "<br><b>Scenario Description: </b><br>" + logs.toString() + "<br><br>";
+		String screenshotPath = null;
+	    try {
+	        screenshotPath = takeScreenshot(event.getTestCase().getName());  // Implement this
+	        extentTest.addScreenCaptureFromPath(screenshotPath);
+	    } catch (Exception e) {
+	        extentTest.warning("Screenshot capture failed: " + e.getMessage());
+	    }
 		switch (event.getResult().getStatus()) {
 		case PASSED:
 			testPassedOrSkipped();
@@ -97,20 +104,6 @@ public class ExtentCucumberAdapter extends BaseTest implements ConcurrentEventLi
 			break;
 		}
 		extent.flush();
-	}
-	
-	@AfterMethod
-	public static void getScreenShot(ITestResult result) throws IOException {
-		String screenshotPath = takeScreenshot(result.getMethod().getMethodName());
-		if (result.getStatus() == ITestResult.FAILURE) {
-            test.get().fail(result.getThrowable());
-        } else if (result.getStatus() == ITestResult.SUCCESS) {
-            test.get().pass("Test passed.");
-        } else {
-            test.get().skip("Test skipped.");
-        }
-        test.get().addScreenCaptureFromPath(screenshotPath);        
-        driver.close();
 	}
 
 }
