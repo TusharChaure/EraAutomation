@@ -103,22 +103,6 @@ public class BaseTest {
 		landingPage.goTo();
 	}
 	
-	public static String takeScreenshot(String methodName) {
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String screenshotPath = "screenshots/" + methodName + "_" + timeStamp + ".png";
-        File src = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-        File dest = new File(screenshotPath);
-        dest.getParentFile().mkdirs();
-
-        try {
-            Files.copy(src.toPath(), dest.toPath());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return screenshotPath;
-    }
-	
 	@AfterMethod(alwaysRun=true)	
 	public void tearDown()
 	{

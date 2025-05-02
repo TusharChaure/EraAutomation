@@ -1,12 +1,18 @@
 package extentReport;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.net.MalformedURLException;
+import java.nio.file.Files;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 
@@ -87,7 +93,7 @@ public class ExtentCucumberAdapter extends BaseTest implements ConcurrentEventLi
 		scenarioDescription = "<br><b>Scenario Description: </b><br>" + logs.toString() + "<br><br>";
 		String screenshotPath = null;
 	    try {
-	        screenshotPath = takeScreenshot(event.getTestCase().getName());  // Implement this
+	        screenshotPath = takeScreenshot(event.getTestCase().getName());
 	        extentTest.addScreenCaptureFromPath(screenshotPath);
 	    } catch (Exception e) {
 	        extentTest.warning("Screenshot capture failed: " + e.getMessage());
@@ -105,5 +111,21 @@ public class ExtentCucumberAdapter extends BaseTest implements ConcurrentEventLi
 		}
 		extent.flush();
 	}
+	
+	public static String takeScreenshot(String methodName) {
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String screenshotPath = "screenshots/" + methodName + "_" + timeStamp + ".png";
+        File src = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+        File dest = new File(screenshotPath);
+        dest.getParentFile().mkdirs();
+
+        try {
+            Files.copy(src.toPath(), dest.toPath());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return screenshotPath;
+    }
 
 }
