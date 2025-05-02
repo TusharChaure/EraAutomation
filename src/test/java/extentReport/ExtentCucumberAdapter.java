@@ -86,8 +86,8 @@ public class ExtentCucumberAdapter<MediaModelProvider> extends BaseTest implemen
 		scenarioDescription = "<br><b>Scenario Description: </b><br>" + logs.toString() + "<br><br>";
 	    String screenshotPath = takeScreenshot(event.getTestCase().getName());
 	    System.out.println(screenshotPath);
-	    mediaModel = MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath).build();
-		switch (event.getResult().getStatus()) {
+	    extentTest.addScreenCaptureFromPath(screenshotPath);
+	    switch (event.getResult().getStatus()) {
 		case PASSED:
 			testPassedOrSkipped();
 			break;
