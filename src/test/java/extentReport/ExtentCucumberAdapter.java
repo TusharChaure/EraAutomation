@@ -21,10 +21,11 @@ import testComponents.BaseTest;
 public class ExtentCucumberAdapter extends BaseTest implements ConcurrentEventListener {
 
 	private ExtentReports extent;
-	public static ExtentTest extentTest;
+	ExtentTest extentTest;
 	String filePath, scenarioDescription, error, str = "";
 	WriteEvent we;
 	private StringBuilder logs;
+    public static ThreadLocal<ExtentTest> test = new ThreadLocal<>();
 
 	@Override
 	public void setEventPublisher(EventPublisher eventPublisher) {
@@ -100,7 +101,8 @@ public class ExtentCucumberAdapter extends BaseTest implements ConcurrentEventLi
 	@AfterMethod
 	public static void getScreenShot(ITestResult result) {
 		String path = takeScreenshot(result.getMethod().getMethodName());
-        extentTest.addScreenCaptureFromPath(path);
+        test.get().addScreenCaptureFromPath(path);
+        driver.close();
 	}
 
 }

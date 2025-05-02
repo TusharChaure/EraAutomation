@@ -119,9 +119,4 @@ public class BaseTest {
         return screenshotPath;
     }
 
-	@AfterMethod(alwaysRun=true)	
-	public void tearDown()
-	{
-		driver.close();
-	}
 }
