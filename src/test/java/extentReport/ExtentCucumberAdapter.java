@@ -81,6 +81,7 @@ public class ExtentCucumberAdapter extends BaseTest implements ConcurrentEventLi
 		testLogs(event);
 		scenarioDescription = "<br><b>Scenario Description: </b><br>" + logs.toString() + "<br><br>";
 	    String screenshotPath = takeScreenshot(event.getTestCase().getName());
+	    System.out.println(screenshotPath);
 	    extentTest.addScreenCaptureFromPath(screenshotPath);
 		switch (event.getResult().getStatus()) {
 		case PASSED:
