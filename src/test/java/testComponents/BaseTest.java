@@ -55,8 +55,8 @@ public class BaseTest {
 		if (browserName.contains("chrome")) {
 			ChromeOptions options = new ChromeOptions();
 			WebDriverManager.chromedriver().setup();
-//			if(mode.contentEquals("headless"))
-//				options.addArguments("headless");
+			if(mode.contentEquals("headless"))
+				options.addArguments("headless");
 			driver = new ChromeDriver(options);
 		} else if (browserName.equalsIgnoreCase("firefox")) {
 			System.setProperty("webdriver.gecko.driver", "firefox.exe");
