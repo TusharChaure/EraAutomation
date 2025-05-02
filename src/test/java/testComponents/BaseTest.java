@@ -105,10 +105,10 @@ public class BaseTest {
 	        String safeName = scenarioName.replaceAll("[^a-zA-Z0-9]", "_");
 	        String filename = safeName + "_" + timestamp + ".png";
 	        String screenshotDir = "screenshots";
-	        File dest = new File("../RailEuropeAutomation/target/" + screenshotDir  + File.separator + filename);
+	        File dest = new File("../RailEuropeAutomation/target/" + screenshotDir  + "/" + filename);
 	        dest.getParentFile().mkdirs();
 	        java.nio.file.Files.copy(src.toPath(), dest.toPath());
-	        return "../RailEuropeAutomation/target/" + screenshotDir  + File.separator + filename;
+	        return "../RailEuropeAutomation/target/" + screenshotDir  + "/" + filename;
 	        
 	    } catch (IOException e) {
 	        e.printStackTrace();
