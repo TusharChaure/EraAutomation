@@ -65,14 +65,12 @@ public class ExtentCucumberAdapter<MediaModelProvider> extends BaseTest implemen
 	
 	private void testPassedOrSkipped(TestCaseFinished event) {
 		extentTest.pass(scenarioDescription);
-		extentTest.addScreenCaptureFromPath(takeScreenshot(event.getTestCase().getName(), driver));
 	}
 	
 	private void testFailed(TestCaseFinished event) {
 		error = "<b>Error: </b><br><br>" + event.getResult().getError() + "<br>";
 		extentTest.fail(error);
 		extentTest.fail(scenarioDescription);
-		extentTest.addScreenCaptureFromPath(takeScreenshot(event.getTestCase().getName(), driver));
 	}
 
 	@SuppressWarnings({ "incomplete-switch" })
@@ -95,6 +93,7 @@ public class ExtentCucumberAdapter<MediaModelProvider> extends BaseTest implemen
 			testPassedOrSkipped(event);
 			break;
 		}
+		extentTest.addScreenCaptureFromPath(takeScreenshot(event.getTestCase().getName()));
 		extent.flush();
 	}
 
