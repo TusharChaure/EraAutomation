@@ -6,10 +6,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.text.SimpleDateFormat;
 import java.time.Duration;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
@@ -24,14 +21,12 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.annotations.BeforeMethod;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import era.pageObjectModel.AddTravelerDetails;
 import era.pageObjectModel.BillingInfoDetails;
 import era.pageObjectModel.Cart;
 import era.pageObjectModel.HomePage;
 import era.pageObjectModel.LandingPage;
 import era.pageObjectModel.PaymentPage;
-import extentReport.ExtentCucumberAdapter;
 import io.cucumber.java.Scenario;
 import io.github.bonigarcia.wdm.WebDriverManager;
 
@@ -103,22 +98,24 @@ public class BaseTest {
 		landingPage.goTo();
 	}
 	
-	public static String takeScreenshot(String methodName) {
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        methodName = methodName.replaceAll(" ", "_");
-        String screenshotPath = "screenshots/" + methodName + "_" + timeStamp + ".png";
-        File src = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-        File dest = new File(screenshotPath);
-        dest.getParentFile().mkdirs();
+	public static String takeScreenshot(String scenarioName) {
+	    try {
+	        File src = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+	        String timestamp = new java.text.SimpleDateFormat("yyyyMMdd_HHmmss").format(new java.util.Date());
+	        String safeName = scenarioName.replaceAll("[^a-zA-Z0-9]", "_");
+	        String filename = safeName + "_" + timestamp + ".png";
+	        String screenshotDir = "screenshots";
+	        File dest = new File(screenshotDir + File.separator + filename);
+	        dest.getParentFile().mkdirs();
+	        java.nio.file.Files.copy(src.toPath(), dest.toPath());
+	        return "../" + screenshotDir + "/" + filename;
+	        
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	        return null;
+	    }
+	}
 
-        try {
-            Files.copy(src.toPath(), dest.toPath());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return screenshotPath;
-    }
 	
 	@AfterMethod(alwaysRun=true)	
 	public void tearDown()

@@ -1,21 +1,10 @@
 package extentReport;
 
-import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.Field;
 import java.net.MalformedURLException;
-import java.nio.file.Files;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.testng.ITestResult;
-import org.testng.annotations.AfterMethod;
-
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import io.cucumber.plugin.ConcurrentEventListener;
