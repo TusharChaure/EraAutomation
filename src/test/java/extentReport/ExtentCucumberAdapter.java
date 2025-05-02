@@ -93,7 +93,7 @@ public class ExtentCucumberAdapter<MediaModelProvider> extends BaseTest implemen
 			testPassedOrSkipped(event);
 			break;
 		}
-		extentTest.addScreenCaptureFromPath(takeScreenshot(event.getTestCase().getName()));
+		extentTest.addScreenCaptureFromPath("/job/RailEuropeAutomation" + takeScreenshot(event.getTestCase().getName()));
 		extent.flush();
 	}
 
