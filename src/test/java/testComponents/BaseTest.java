@@ -98,7 +98,7 @@ public class BaseTest {
 		landingPage.goTo();
 	}
 	
-	public static String takeScreenshot(String scenarioName) {
+	public static String takeScreenshot(String scenarioName, WebDriver driver) {
 	    try {
 	        File src = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
 	        String timestamp = new java.text.SimpleDateFormat("yyyyMMdd_HHmmss").format(new java.util.Date());
