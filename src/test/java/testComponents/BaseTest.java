@@ -108,7 +108,7 @@ public class BaseTest {
 	        File dest = new File(screenshotDir + File.separator + filename);
 	        dest.getParentFile().mkdirs();
 	        java.nio.file.Files.copy(src.toPath(), dest.toPath());
-	        return System.getProperty("user.dir") + File.separator  + screenshotDir + File.separator + filename;	        
+	        return "../RailEuropeAutomation/target/"  + screenshotDir + "/" + filename;
 	    } catch (IOException e) {
 	        e.printStackTrace();
 	        return null;
