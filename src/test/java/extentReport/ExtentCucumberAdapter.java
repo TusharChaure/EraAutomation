@@ -1,5 +1,6 @@
 package extentReport;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.util.Arrays;
@@ -99,9 +100,16 @@ public class ExtentCucumberAdapter extends BaseTest implements ConcurrentEventLi
 	}
 	
 	@AfterMethod
-	public static void getScreenShot(ITestResult result) {
-		String path = takeScreenshot(result.getMethod().getMethodName());
-        test.get().addScreenCaptureFromPath(path);
+	public static void getScreenShot(ITestResult result) throws IOException {
+		String screenshotPath = takeScreenshot(result.getMethod().getMethodName());
+		if (result.getStatus() == ITestResult.FAILURE) {
+            test.get().fail(result.getThrowable());
+        } else if (result.getStatus() == ITestResult.SUCCESS) {
+            test.get().pass("Test passed.");
+        } else {
+            test.get().skip("Test skipped.");
+        }
+        test.get().addScreenCaptureFromPath(screenshotPath);        
         driver.close();
 	}
 
