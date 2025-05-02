@@ -5,7 +5,7 @@ import io.cucumber.testng.CucumberOptions;
 
 @CucumberOptions(
 		features="src/test/resources/featureFiles",
-		glue="stepDefinations",
+		glue="stepDefinations", tags="@test",
 		monochrome=true, 
 		plugin= {"extentReport.ExtentCucumberAdapter", "html:target/cucumber.html"}
 )

@@ -6,6 +6,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.testng.ITestResult;
+import org.testng.annotations.AfterMethod;
+
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import io.cucumber.plugin.ConcurrentEventListener;
@@ -18,7 +21,7 @@ import testComponents.BaseTest;
 public class ExtentCucumberAdapter extends BaseTest implements ConcurrentEventListener {
 
 	private ExtentReports extent;
-	ExtentTest extentTest;
+	public static ExtentTest extentTest;
 	String filePath, scenarioDescription, error, str = "";
 	WriteEvent we;
 	private StringBuilder logs;
@@ -92,6 +95,12 @@ public class ExtentCucumberAdapter extends BaseTest implements ConcurrentEventLi
 			break;
 		}
 		extent.flush();
+	}
+	
+	@AfterMethod
+	public static void getScreenShot(ITestResult result) {
+		String path = takeScreenshot(result.getMethod().getMethodName());
+        extentTest.addScreenCaptureFromPath(path);
 	}
 
 }

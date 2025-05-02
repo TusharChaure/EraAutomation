@@ -1,6 +1,7 @@
 @sanity
 Feature: Landing to home page
 
+	@test
   Scenario: Login with valid username and password
     Given Open era homepage and accept terms and conditions
     When Enter "tchaure" "Trsndhc@5" and click on submit button
