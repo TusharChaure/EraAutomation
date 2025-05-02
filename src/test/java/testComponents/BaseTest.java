@@ -49,11 +49,12 @@ public class BaseTest {
 		FileInputStream fis = new FileInputStream("src/test/resources/config/config.properties");
 		prop.load(fis);
 		String browserName = System.getProperty("browser")!=null ? System.getProperty("browser") :prop.getProperty("browser");
+		String mode = System.getProperty("mode");
 		if (browserName.contains("chrome")) {
 			ChromeOptions options = new ChromeOptions();
 			WebDriverManager.chromedriver().setup();
-			options.addArguments("headless");
-			options.addArguments("disable-gpu");
+			if(mode.contentEquals("headless"))
+				options.addArguments("headless");
 			driver = new ChromeDriver(options);
 		} else if (browserName.equalsIgnoreCase("firefox")) {
 			System.setProperty("webdriver.gecko.driver", "firefox.exe");
