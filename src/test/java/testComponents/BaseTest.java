@@ -104,7 +104,7 @@ public class BaseTest {
 	public static String takeScreenshot(String methodName) {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         methodName = methodName.replaceAll(" ", "_");
-        String screenshotPath = "/screenshots/" + methodName + "_" + timeStamp + ".png";
+        String screenshotPath = "/job/RailEuropeAutomation/screenshots/" + methodName + "_" + timeStamp + ".png";
         File src = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
         File dest = new File(screenshotPath);
         dest.getParentFile().mkdirs();
